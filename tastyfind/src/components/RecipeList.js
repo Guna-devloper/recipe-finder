@@ -29,12 +29,24 @@ const RecipeList = ({ recipes }) => {
         {recipes && recipes.length > 0 ? (
           recipes.map((recipe) => (
             <Col xs={12} sm={6} md={4} key={recipe.id} className="mb-3">
-              <Card>
-                <Card.Img variant="top" src={recipe.image} alt={recipe.title} />
+              <Card className="shadow-sm border-0">
+                <Card.Img
+                  variant="top"
+                  src={recipe.image}
+                  alt={recipe.title}
+                  className="img-fluid"
+                />
                 <Card.Body>
-                  <Card.Title>{recipe.title}</Card.Title>
-                  <div className="d-flex justify-content-between">
-                    <Button variant="primary" onClick={() => navigate(`/recipe/${recipe.id}`)}>
+                  <Card.Title className="text-center">{recipe.title}</Card.Title>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        // Save selected recipe details before navigating
+                        localStorage.setItem(`recipe_${recipe.id}`, JSON.stringify(recipe));
+                        navigate(`/recipe/${recipe.id}`);
+                      }}
+                    >
                       View Recipe
                     </Button>
                     <Button
@@ -54,7 +66,7 @@ const RecipeList = ({ recipes }) => {
             </Col>
           ))
         ) : (
-          <p>No recipes found</p>
+          <p className="text-center w-100">No recipes found</p>
         )}
       </Row>
     </Container>
